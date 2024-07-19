@@ -20,8 +20,8 @@ const customer = [
 export default function CustomerListing() {
   return (
     <section>
-      <div className="container-xl lg:container m-auto">
-        <div className="grid grid-cols-1  gap-4 place-items-center">
+      <div className="container-xl lg:container my-5">
+        <div className="grid grid-cols-1 gap-4 place-content-center place-items-center">
           {customer.map((cus) => {
             return <List key={cus.id} {...cus} />;
           })}
