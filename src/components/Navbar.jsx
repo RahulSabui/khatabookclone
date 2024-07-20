@@ -29,7 +29,7 @@ export default function Navbar() {
                 <NavLink to="/addCustomer" className={linkClass}>
                   Add Customer
                 </NavLink>
-                <NavLink to="/addFunds" className={linkClass}>
+                <NavLink to="/addFund" end className={linkClass}>
                   Add Funds
                 </NavLink>
                 <NavLink to="/login" className={linkClass}>

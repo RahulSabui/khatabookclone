@@ -9,17 +9,31 @@ import { Customers } from "./pages/Customers.jsx";
 import { AddCustomer } from "./pages/AddCustomer.jsx";
 import AddFund from "./pages/AddFund.jsx";
 import Login from "./pages/Login.jsx";
+import EditCustomer from "./pages/EditCustomer.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 
-const customer = [
+const customers = [
   {
     id: 1,
-    name: "Rohan",
-    money: "30000",
-    date: "24/06/2024",
+    name: "Rohan Biswas",
+    moneyAdded: "30000",
+    date: "24-06-2024",
+    details: "dudhdjcdcbudcbdbdhvfh",
+  },
+  {
+    id: 2,
+    name: "Sukanya Bhattachharya",
+    moneyAdded: "40000",
+    date: "24-06-2024",
     details: "dudhdjcdcbudcbdbdhvfh",
   },
 ];
+
+// const addCustomer = (addCust) => {
+//   const randid = Math.floor(Math.random() * 20) + 1;
+//   customers = [...customers, { id: randid, addCust }];
+// };
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,19 +41,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/customers",
-    element: <Customers />,
+    element: <Customers customers={customers} />,
   },
   {
     path: "/addCustomer",
     element: <AddCustomer />,
   },
   {
-    path: "/addFunds",
+    path: "/addFund",
     element: <AddFund />,
   },
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/customers/:custid/edit",
+    element: <EditCustomer customers={customers} />,
   },
   {
     path: "*",

@@ -1,12 +1,17 @@
 import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-export const AddCustomer = () => {
+export default function EditCustomer({ customers }) {
+  const { custid } = useParams();
+  console.log(customers);
+  const cust = customers.filter((c) => c.id == custid);
+  const customer = cust[0];
   const [formData, setFormData] = useState({
-    name: "",
-    moneyAdded: 0,
-    date: "dd-mm-yyyy",
-    details: "",
+    name: customer.name,
+    moneyAdded: customer.moneyAdded,
+    date: customer.date,
+    details: customer.details,
   });
   const handleChange = (evt) => {
     setFormData((prev) => {
@@ -16,7 +21,6 @@ export const AddCustomer = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(formData);
   };
   return (
     <>
@@ -28,7 +32,7 @@ export const AddCustomer = () => {
           <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
             <form action="/addCustomer" method="POST" onSubmit={handleSubmit}>
               <h2 className="text-3xl text-center font-semibold mb-6">
-                Add Customer
+                Edit Customer
               </h2>
               <div className="mb-4">
                 <label
@@ -43,6 +47,7 @@ export const AddCustomer = () => {
                   id="name"
                   className="border rounded w-full py-2 px-3 mb-2"
                   placeholder="Name"
+                  value={formData.name}
                   onChange={handleChange}
                 />
               </div>
@@ -60,6 +65,7 @@ export const AddCustomer = () => {
                   id="moneyAdded"
                   className="border rounded w-full py-2 px-3 mb-2"
                   placeholder="Add money"
+                  value={formData.moneyAdded}
                   onChange={handleChange}
                   min="0"
                 />
@@ -78,6 +84,7 @@ export const AddCustomer = () => {
                   name="date"
                   id="date"
                   className="border rounded w-full py-2 px-3 mb-2"
+                  value={formData.date}
                   onChange={handleChange}
                 />
               </div>
@@ -95,20 +102,28 @@ export const AddCustomer = () => {
                   name="details"
                   id="details"
                   className="border rounded w-full py-2 px-3"
+                  value={formData.details}
                   onChange={handleChange}
                 ></textarea>
               </div>
 
               <div>
-                <button className="bg-blue-400 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline">
+                <button className="bg-blue-400 hover:bg-cyan-600 text-white font-bold mb-4 py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline">
                   {" "}
-                  Add
+                  Sumbit
                 </button>
               </div>
+
+              <Link
+                to="/customers"
+                className="text-white text-center bg-indigo-700 hover:bg-indigo-900 inline-block w-full rounded-full px-2 py-2 "
+              >
+                Go Back
+              </Link>
             </form>
           </div>
         </div>
       </section>
     </>
   );
-};
+}

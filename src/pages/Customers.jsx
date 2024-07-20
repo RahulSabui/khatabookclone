@@ -1,11 +1,11 @@
 import Navbar from "../components/Navbar";
 import CustomerListing from "../components/CustomerListing";
 
-export const Customers = () => {
+export const Customers = ({ customers }) => {
   return (
     <>
       <Navbar />
-      <CustomerListing />
+      <CustomerListing customers={customers} />
     </>
   );
 };
