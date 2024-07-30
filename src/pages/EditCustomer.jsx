@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import { Link, useParams, useLoaderData, useNavigate } from "react-router-dom";
+// import Navbar from "../components/Navbar";
 
-export default function EditCustomer({ customers }) {
+function EditCustomer({ editCustomer }) {
   const { custid } = useParams();
-  console.log(customers);
-  const cust = customers.filter((c) => c.id == custid);
-  const customer = cust[0];
+  const customer = useLoaderData();
+  const navigate = useNavidate();
+  // console.log(customers);
+  // const cust = customers.filter((c) => c.id == custid);
+  // const customer = cust[0];
   const [formData, setFormData] = useState({
     name: customer.name,
-    moneyAdded: customer.moneyAdded,
+    money: customer.moneyAdded,
     date: customer.date,
     details: customer.details,
   });
@@ -21,10 +23,12 @@ export default function EditCustomer({ customers }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    editCustomer(formData);
+    return navigate("/api/c/customers");
   };
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <section>
         {/* <div className="container mx-auto px-4 justify-center m-4"> */}
@@ -54,18 +58,18 @@ export default function EditCustomer({ customers }) {
 
               <div className="mb-4">
                 <label
-                  htmlFor="moneyAdded"
+                  htmlFor="money"
                   className="block text-gray-700 font-bold mb-2"
                 >
                   Money Added{" "}
                 </label>
                 <input
                   type="number"
-                  name="moneyAdded"
-                  id="moneyAdded"
+                  name="money"
+                  id="money"
                   className="border rounded w-full py-2 px-3 mb-2"
                   placeholder="Add money"
-                  value={formData.moneyAdded}
+                  value={formData.money}
                   onChange={handleChange}
                   min="0"
                 />
@@ -127,3 +131,16 @@ export default function EditCustomer({ customers }) {
     </>
   );
 }
+
+const customerLoader = async ({ params }) => {
+  try {
+    const res = await fetch(`/api/c/customers/${params.custid}`);
+    const data = res.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log("OH NOOO Error!!", err);
+  }
+};
+
+export { EditCustomer as default, customerLoader };

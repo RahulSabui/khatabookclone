@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 
-export const AddCustomer = () => {
+export const AddCustomer = ({ addCustomer }) => {
   const [formData, setFormData] = useState({
     name: "",
-    moneyAdded: 0,
+    money: 0,
     date: "dd-mm-yyyy",
     details: "",
   });
@@ -16,11 +16,12 @@ export const AddCustomer = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(formData);
+    addCustomer(formData);
+    // console.log(formData);
   };
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <section>
         {/* <div className="container mx-auto px-4 justify-center m-4"> */}
@@ -49,15 +50,15 @@ export const AddCustomer = () => {
 
               <div className="mb-4">
                 <label
-                  htmlFor="moneyAdded"
+                  htmlFor="money"
                   className="block text-gray-700 font-bold mb-2"
                 >
                   Money Added{" "}
                 </label>
                 <input
                   type="number"
-                  name="moneyAdded"
-                  id="moneyAdded"
+                  name="money"
+                  id="money"
                   className="border rounded w-full py-2 px-3 mb-2"
                   placeholder="Add money"
                   onChange={handleChange}

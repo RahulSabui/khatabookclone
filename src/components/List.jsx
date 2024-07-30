@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 
-export default function List({ id, name, moneyAdded, date, details }) {
+export default function List({
+  id,
+  name,
+  money,
+  date,
+  details,
+  deleteCustomer,
+}) {
   return (
     //grid format
     <div className="grid grid-cols-5 justify-items-center my-1 py-4  bg-white rounded shadow-md">
       <div>{name}</div>
-      <div>{moneyAdded}</div>
+      <div>{money}</div>
       <div>{date}</div>
       <div>{details}</div>
       <div>
@@ -25,7 +32,10 @@ export default function List({ id, name, moneyAdded, date, details }) {
             Delete
             
           </button> */}
-        <button className="bg-red-400 hover:bg-red-500 text-white font-semibold rounded-full focus:outline-none focus:shadow-outline px-2 py-1.5 ml-2 text-sm ">
+        <button
+          onClick={deleteCustomer(id)}
+          className="bg-red-400 hover:bg-red-500 text-white font-semibold rounded-full focus:outline-none focus:shadow-outline px-2 py-1.5 ml-2 text-sm "
+        >
           Delete
         </button>
       </div>

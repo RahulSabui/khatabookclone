@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ loginUser }) {
   const [formData, setFormData] = useState({ username: "", passward: "" });
+  const navigate = useNavigate();
+
   const handleChange = (evt) => {
     setFormData((prev) => {
       return { ...prev, [evt.target.name]: evt.target.value };
@@ -11,13 +13,15 @@ export default function Login() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    loginUser(formData);
+    return navigate("/customers");
   };
   return (
     <section>
       {/* <div className="container mx-auto px-4 justify-center m-4"> */}
       <div className=" container m-auto mt-10 max-w-lg pt-10">
         <div className="bg-cyan-900 px-6 py-8 mb-2 shadow-md rounded-md border m-4 md:m-0">
-          <form action="/customers/new" method="POST">
+          <form onSubmit={handleSubmit}>
             <h2 className="text-gray-100 text-3xl text-center font-semibold mb-6">
               Login
             </h2>

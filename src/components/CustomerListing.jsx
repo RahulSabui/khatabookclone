@@ -1,6 +1,26 @@
+import { useState, useEffect } from "react";
 import List from "./List";
+// import { use } from "../../../backend-1/App/routes/customer.route";
 
-export default function CustomerListing({ customers }) {
+export default function CustomerListing({ deleteCustomer }) {
+  const [customer, setCustomer] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCustomer() {
+      const apiUrl = "/api/c/customers";
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        setCustomer(data);
+      } catch (err) {
+        console.log("Oh NOO Error!!", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCustomer();
+  }, []);
   return (
     <section className="px-2 py-2">
       <div className="container-xl lg:container my-5">
@@ -12,9 +32,18 @@ export default function CustomerListing({ customers }) {
         </div>
 
         <div>
-          {customers.map((cus) => {
-            return <List key={cus.id} {...cus} />;
-          })}
+          {loading ? (
+            <span> Loading</span>
+          ) : (
+            <div>
+              {" "}
+              {customer.map((cus) => {
+                return (
+                  <List key={cus.id} {...cus} deleteCustomer={deleteCustomer} />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
       {/* <table className=" w-100 table-auto border-collapse border border-slate-400">

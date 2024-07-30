@@ -1,6 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
+// import { useContext } from "react";
 
 export default function Navbar() {
+  const context = useOutletContext();
+  console.log(context);
+  // const isLoggedIn = false;
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
@@ -35,6 +39,22 @@ export default function Navbar() {
                 <NavLink to="/login" className={linkClass}>
                   Login
                 </NavLink>
+
+                {/* {context.isLoggedIn && (
+                  <NavLink to="/addCustomer" className={linkClass}>
+                    Add Customer
+                  </NavLink>
+                )}
+                {isLoggedIn && (
+                  <NavLink to="/addFund" end className={linkClass}>
+                    Add Funds
+                  </NavLink>
+                )}
+                {!isLoggedIn && (
+                  <NavLink to="/login" className={linkClass}>
+                    Login
+                  </NavLink>
+                )} */}
               </div>
             </div>
           </div>
