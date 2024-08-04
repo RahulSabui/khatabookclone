@@ -14,13 +14,12 @@ function EditCustomer() {
   const context = useOutletContext();
   const { custid } = useParams();
   const { isLoading, error, sendRequest } = useHttpClient();
-  const customer = useLoaderData();
+  const { customer } = useLoaderData();
   const navigate = useNavigate();
-  console.log(context);
 
   const [formData, setFormData] = useState({
     name: customer.name,
-    money: customer.moneyAdded,
+    money: customer.money,
     date: customer.date,
     details: customer.details,
   });
@@ -34,7 +33,7 @@ function EditCustomer() {
     evt.preventDefault();
     try {
       const res = await sendRequest(
-        "/api/c/customers",
+        `/api/c/customers/${custid}`,
         "PUT",
         JSON.stringify(formData),
         {
@@ -158,11 +157,8 @@ function EditCustomer() {
 
 const customerLoader = async ({ params }) => {
   try {
-    const res = await fetch(`/api/c/customers/${params.custid}/edit`, {
-      headers: { Authorization: "Bearer" },
-    });
+    const res = await fetch(`/api/c/customers/${params.custid}/edit`);
     const data = await res.json();
-    console.log("loader data is", data);
     return data;
   } catch (err) {
     console.log(err);

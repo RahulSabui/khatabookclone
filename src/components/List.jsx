@@ -33,7 +33,7 @@ export default function List({
             
           </button> */}
         <button
-          // onClick={deleteCustomer(id)}
+          onClick={() => deleteCustomer(id)}
           className="bg-red-400 hover:bg-red-500 text-white font-semibold rounded-full focus:outline-none focus:shadow-outline px-2 py-1.5 ml-2 text-sm "
         >
           Delete

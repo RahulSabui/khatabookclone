@@ -35,8 +35,10 @@ export default function CustomerListing() {
         Authorization: "Bearer " + context.token,
       });
       toast.success(res.message);
-      navigate("/customers");
+      // return navigate("/customers");
+      return;
     } catch (err) {
+      console.log(err);
       toast.error(error);
     }
   };
