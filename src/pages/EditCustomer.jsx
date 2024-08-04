@@ -45,14 +45,10 @@ function EditCustomer() {
       return navigate("/customers");
     } catch (err) {
       toast.error(error || err.message);
-      console.log("error is", error);
-      console.log("catch wala error is", err);
     }
   };
   return (
     <>
-      {/* <Navbar /> */}
-
       <section>
         {/* <div className="container mx-auto px-4 justify-center m-4"> */}
         <div className="container m-auto max-w-2xl pt-5">

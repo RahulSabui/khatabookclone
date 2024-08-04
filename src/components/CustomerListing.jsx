@@ -34,12 +34,9 @@ export default function CustomerListing() {
       const res = await sendRequest(`/api/c/customers/${id}`, "DELETE", null, {
         Authorization: "Bearer " + context.token,
       });
-      toast.success(res.message);
-      // return navigate("/customers");
-      return;
+      return res.message;
     } catch (err) {
       console.log(err);
-      toast.error(error);
     }
   };
 

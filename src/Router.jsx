@@ -12,7 +12,7 @@ import { ProtectedRoutes } from "./utils/ProtectedRoutes.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    // path: "/",
     element: <Root />,
     errorElement: <NotFoundPage />,
     children: [
