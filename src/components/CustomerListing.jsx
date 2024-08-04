@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import List from "./List";
 import { Spinner } from "./Spinner";
@@ -7,6 +7,7 @@ import { useHttpClient } from "../shared/hooks/http-hook";
 import { toast } from "react-toastify";
 
 export default function CustomerListing() {
+  const context = useOutletContext();
   const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isLoading, error, sendRequest } = useHttpClient();
@@ -30,7 +31,9 @@ export default function CustomerListing() {
 
   const deleteCustomer = async (id) => {
     try {
-      const res = await sendRequest(`/api/c/customers/${id}`, "DELETE");
+      const res = await sendRequest(`/api/c/customers/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + context.token,
+      });
       toast.success(res.message);
       navigate("/customers");
     } catch (err) {

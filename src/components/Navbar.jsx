@@ -1,11 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 // import { useContext } from "react";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn, logout }) {
+  const navigate = useNavigate();
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
       : "text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2";
+
+  const handleSubmit = () => {
+    logout();
+    return navigate("/");
+  };
 
   return (
     <nav className="bg-cyan-700 border-b border-indigo-500">
@@ -33,25 +39,15 @@ export default function Navbar() {
                 <NavLink to="/addFund" end className={linkClass}>
                   Add Funds
                 </NavLink>
-                <NavLink to="/login" className={linkClass}>
-                  Login
-                </NavLink>
-
-                {/* {context.isLoggedIn && (
-                  <NavLink to="/addCustomer" className={linkClass}>
-                    Add Customer
-                  </NavLink>
-                )}
-                {isLoggedIn && (
-                  <NavLink to="/addFund" end className={linkClass}>
-                    Add Funds
-                  </NavLink>
-                )}
-                {!isLoggedIn && (
+                {isLoggedIn ? (
+                  <form onSubmit={handleSubmit}>
+                    <NavLink className={linkClass}>Logout</NavLink>
+                  </form>
+                ) : (
                   <NavLink to="/login" className={linkClass}>
                     Login
                   </NavLink>
-                )} */}
+                )}
               </div>
             </div>
           </div>

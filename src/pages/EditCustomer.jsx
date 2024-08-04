@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { Link, useParams, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useHttpClient } from "../shared/hooks/http-hook";
 
 function EditCustomer() {
+  const context = useOutletContext();
   const { custid } = useParams();
   const { isLoading, error, sendRequest } = useHttpClient();
   const customer = useLoaderData();
@@ -25,7 +32,10 @@ function EditCustomer() {
   const editCustomer = (editCust) => {
     fetch("/api/c/customers", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + context.token,
+      },
       body: JSON.stringyfy(editCust),
     });
     // customers = [...customers, { id: randid, addCust }];

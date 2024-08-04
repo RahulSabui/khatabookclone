@@ -31,11 +31,11 @@ export const AddCustomer = () => {
         JSON.stringyfy(formData),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + context.token,
         }
       );
+      console.log(res);
       toast.success(res.message);
-      navigate("/customers");
+      return navigate("/customers");
     } catch (err) {
       toast.error(error);
     }
@@ -49,7 +49,7 @@ export const AddCustomer = () => {
 
         <div className="container m-auto max-w-2xl pt-5">
           <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-            <form action="/addCustomer" method="POST" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <h2 className="text-3xl text-center font-semibold mb-6">
                 Add Customer
               </h2>
