@@ -1,23 +1,44 @@
 import { useState } from "react";
-// import Navbar from "../components/Navbar";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
-export const AddCustomer = ({ addCustomer }) => {
+import { useHttpClient } from "../shared/hooks/http-hook";
+import { toast } from "react-toastify";
+
+export const AddCustomer = () => {
+  const context = useOutletContext();
   const [formData, setFormData] = useState({
     name: "",
     money: 0,
     date: "dd-mm-yyyy",
     details: "",
   });
+  const { isLoading, error, sendRequest } = useHttpClient();
+  const navigate = useNavigate();
+
   const handleChange = (evt) => {
     setFormData((prev) => {
       return { ...prev, [evt.target.name]: evt.target.value.toString() };
     });
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    addCustomer(formData);
-    // console.log(formData);
+    console.log(formData);
+    try {
+      const res = await sendRequest(
+        "/api/c/customers",
+        "POST",
+        JSON.stringyfy(formData),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
+        }
+      );
+      toast.success(res.message);
+      navigate("/customers");
+    } catch (err) {
+      toast.error(error);
+    }
   };
   return (
     <>
@@ -25,6 +46,7 @@ export const AddCustomer = ({ addCustomer }) => {
 
       <section>
         {/* <div className="container mx-auto px-4 justify-center m-4"> */}
+
         <div className="container m-auto max-w-2xl pt-5">
           <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
             <form action="/addCustomer" method="POST" onSubmit={handleSubmit}>

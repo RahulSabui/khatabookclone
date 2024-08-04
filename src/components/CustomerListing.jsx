@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
-import List from "./List";
-// import { use } from "../../../backend-1/App/routes/customer.route";
+import { useNavigate } from "react-router-dom";
 
-export default function CustomerListing({ deleteCustomer }) {
+import List from "./List";
+import { Spinner } from "./Spinner";
+import { useHttpClient } from "../shared/hooks/http-hook";
+import { toast } from "react-toastify";
+
+export default function CustomerListing() {
   const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isLoading, error, sendRequest } = useHttpClient();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchCustomer() {
@@ -21,6 +27,17 @@ export default function CustomerListing({ deleteCustomer }) {
     }
     fetchCustomer();
   }, []);
+
+  const deleteCustomer = async (id) => {
+    try {
+      const res = await sendRequest(`/api/c/customers/${id}`, "DELETE");
+      toast.success(res.message);
+      navigate("/customers");
+    } catch (err) {
+      toast.error(error);
+    }
+  };
+
   return (
     <section className="px-2 py-2">
       <div className="container-xl lg:container my-5">
@@ -33,10 +50,11 @@ export default function CustomerListing({ deleteCustomer }) {
 
         <div>
           {loading ? (
-            <span> Loading</span>
+            <Spinner loading={loading} />
+          ) : customer.length <= 0 ? (
+            <span className="container m-auto">No Customer</span>
           ) : (
             <div>
-              {" "}
               {customer.map((cus) => {
                 return (
                   <List key={cus.id} {...cus} deleteCustomer={deleteCustomer} />

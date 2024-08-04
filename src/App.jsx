@@ -1,31 +1,11 @@
 import { useState, useCallback } from "react";
-import { Outlet, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
+
 import router from "./Router";
-// import MainLayout from "./layouts/MainLayout.jsx";
-// import { HomePage } from "./pages/HomePage.jsx";
-// import { Customers } from "./pages/Customers.jsx";
-// import { AddCustomer } from "./pages/AddCustomer.jsx";
-// import AddFund from "./pages/AddFund.jsx";
-// import Login from "./pages/Login.jsx";
-// import EditCustomer from "./pages/EditCustomer.jsx";
-// import NotFoundPage from "./pages/NotFoundPage.jsx";
-// import { AuthContext } from "./shared/auth-context.jsx";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
-  console.log(isLoggedIn);
-
   return (
     <>
-      <Outlet context={{ isLoggedIn, login, logout }} />
       <RouterProvider router={router} />
     </>
   );

@@ -1,10 +1,7 @@
-import { NavLink, useOutletContext } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import { useContext } from "react";
 
 export default function Navbar() {
-  const context = useOutletContext();
-  console.log(context);
-  // const isLoggedIn = false;
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-white bg-black hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"

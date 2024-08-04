@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link, useParams, useLoaderData, useNavigate } from "react-router-dom";
-// import Navbar from "../components/Navbar";
+import { toast } from "react-toastify";
 
-function EditCustomer({ editCustomer }) {
+import { useHttpClient } from "../shared/hooks/http-hook";
+
+function EditCustomer() {
   const { custid } = useParams();
+  const { isLoading, error, sendRequest } = useHttpClient();
   const customer = useLoaderData();
-  const navigate = useNavidate();
-  // console.log(customers);
-  // const cust = customers.filter((c) => c.id == custid);
-  // const customer = cust[0];
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: customer.name,
     money: customer.moneyAdded,
@@ -21,10 +22,31 @@ function EditCustomer({ editCustomer }) {
     });
   };
 
-  const handleSubmit = (evt) => {
+  const editCustomer = (editCust) => {
+    fetch("/api/c/customers", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringyfy(editCust),
+    });
+    // customers = [...customers, { id: randid, addCust }];
+    return;
+  };
+
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    editCustomer(formData);
-    return navigate("/api/c/customers");
+    try {
+      editCustomer(formData);
+      const res = await sendRequest(
+        "/api/c/customers",
+        "PUT",
+        JSON.stringyfy(formData),
+        { "Content-Type": "application/json" }
+      );
+      toast.success(res.message);
+      return navigate("/customers");
+    } catch (err) {
+      toast.error(error);
+    }
   };
   return (
     <>
@@ -134,12 +156,12 @@ function EditCustomer({ editCustomer }) {
 
 const customerLoader = async ({ params }) => {
   try {
-    const res = await fetch(`/api/c/customers/${params.custid}`);
-    const data = res.json();
+    const res = await fetch(`/api/c/customers/${params.custid}/edit`);
+    const data = await res.json();
     console.log(data);
     return data;
   } catch (err) {
-    console.log("OH NOOO Error!!", err);
+    toast.error(err.message);
   }
 };
 

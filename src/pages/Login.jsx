@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export default function Login({ loginUser }) {
-  const [formData, setFormData] = useState({ username: "", passward: "" });
+import { useHttpClient } from "../shared/hooks/http-hook";
+import { Spinner } from "../components/Spinner";
+
+export default function Login() {
+  const context = useOutletContext();
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const { isLoading, error, sendRequest } = useHttpClient();
   const navigate = useNavigate();
 
   const handleChange = (evt) => {
@@ -11,13 +17,30 @@ export default function Login({ loginUser }) {
     });
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    loginUser(formData);
-    return navigate("/customers");
+    // console.log(formData);
+    try {
+      const res = await sendRequest(
+        "/api/login",
+        "POST",
+        JSON.stringify(formData),
+        {
+          "Content-Type": "application/json",
+        }
+      );
+      // console.log("res is", res);
+      context.login(res.token);
+      toast.success(res.message);
+      return navigate("/customers");
+    } catch (err) {
+      toast.error(error);
+    }
   };
+
   return (
     <section>
+      {isLoading && <Spinner loading={isLoading} />}
       {/* <div className="container mx-auto px-4 justify-center m-4"> */}
       <div className=" container m-auto mt-10 max-w-lg pt-10">
         <div className="bg-cyan-900 px-6 py-8 mb-2 shadow-md rounded-md border m-4 md:m-0">
@@ -27,7 +50,7 @@ export default function Login({ loginUser }) {
             </h2>
             <div className="mb-4">
               <label
-                htmlFor="usename"
+                htmlFor="username"
                 className="block text-gray-100 font-bold text-lg mb-2"
               >
                 Username
@@ -77,3 +100,32 @@ export default function Login({ loginUser }) {
     </section>
   );
 }
+
+//without custom hook rendering
+// const handleSubmit = async (evt) => {
+//   evt.preventDefault();
+//   // console.log(formData);
+//   try {
+//     setIsLoading(true);
+//     const res = await fetch("/api/login", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(formData),
+//     });
+//     const data = await res.json();
+//     if (!res.ok) {
+//       throw new Error(data.message);
+//     }
+//     console.log(data);
+//     context.login();
+//     toast.success(data.message);
+//     return navigate("/customers");
+//   } catch (err) {
+//     setError(err.message || "Something Went Wrong, please try again");
+//     toast.error(error);
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };
