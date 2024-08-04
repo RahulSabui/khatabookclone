@@ -23,21 +23,21 @@ export const AddCustomer = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    console.log(formData);
     try {
       const res = await sendRequest(
         "/api/c/customers",
         "POST",
-        JSON.stringyfy(formData),
+        JSON.stringify(formData),
         {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
         }
       );
-      console.log(res);
       toast.success(res.message);
       return navigate("/customers");
     } catch (err) {
-      toast.error(error);
+      console.log(err);
+      toast.error(error || err.message);
     }
   };
   return (

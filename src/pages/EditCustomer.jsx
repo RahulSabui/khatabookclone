@@ -16,6 +16,7 @@ function EditCustomer() {
   const { isLoading, error, sendRequest } = useHttpClient();
   const customer = useLoaderData();
   const navigate = useNavigate();
+  console.log(context);
 
   const [formData, setFormData] = useState({
     name: customer.name,
@@ -29,33 +30,24 @@ function EditCustomer() {
     });
   };
 
-  const editCustomer = (editCust) => {
-    fetch("/api/c/customers", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + context.token,
-      },
-      body: JSON.stringyfy(editCust),
-    });
-    // customers = [...customers, { id: randid, addCust }];
-    return;
-  };
-
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      editCustomer(formData);
       const res = await sendRequest(
         "/api/c/customers",
         "PUT",
         JSON.stringyfy(formData),
-        { "Content-Type": "application/json" }
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + context.token,
+        }
       );
       toast.success(res.message);
       return navigate("/customers");
     } catch (err) {
-      toast.error(error);
+      toast.error(error || err.message);
+      console.log("error is", error);
+      console.log("catch wala error is", err);
     }
   };
   return (
