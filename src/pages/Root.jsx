@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
+import Login from "./Login";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Root = () => {
@@ -26,7 +27,8 @@ export const Root = () => {
 
   return (
     <>
-      <Navbar isLoggedIn={!!token} logout={logout} />
+      {token && <Navbar isLoggedIn={!!token} logout={logout} />}
+
       <Outlet context={{ isLoggedIn: !!token, token, login, logout }} />
       <ToastContainer />
     </>

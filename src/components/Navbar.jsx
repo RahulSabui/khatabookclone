@@ -27,22 +27,24 @@ export default function Navbar({ isLoggedIn, logout }) {
             </NavLink>
             <div className="md:ml-auto">
               <div className="flex space-x-2">
-                <NavLink to="/" className={linkClass}>
-                  Home
-                </NavLink>
-                <NavLink to="/customers" className={linkClass}>
-                  All Customer
-                </NavLink>
-                <NavLink to="/addCustomer" className={linkClass}>
-                  Add Customer
-                </NavLink>
-                <NavLink to="/addFund" end className={linkClass}>
-                  Add Funds
-                </NavLink>
                 {isLoggedIn ? (
-                  <form onSubmit={handleSubmit}>
-                    <NavLink className={linkClass}>Logout</NavLink>
-                  </form>
+                  <>
+                    <NavLink to="/" className={linkClass}>
+                      Home
+                    </NavLink>
+                    <NavLink to="/customers" className={linkClass}>
+                      All Customer
+                    </NavLink>
+                    <NavLink to="/addCustomer" className={linkClass}>
+                      Add Customer
+                    </NavLink>
+                    <NavLink to="/addFund" end className={linkClass}>
+                      Add Funds
+                    </NavLink>
+                    <form onSubmit={handleSubmit}>
+                      <NavLink className={linkClass}>Logout</NavLink>
+                    </form>
+                  </>
                 ) : (
                   <NavLink to="/login" className={linkClass}>
                     Login

@@ -36,7 +36,7 @@ function EditCustomer() {
       const res = await sendRequest(
         "/api/c/customers",
         "PUT",
-        JSON.stringyfy(formData),
+        JSON.stringify(formData),
         {
           "Content-Type": "application/json",
           Authorization: "Bearer " + context.token,
@@ -158,11 +158,14 @@ function EditCustomer() {
 
 const customerLoader = async ({ params }) => {
   try {
-    const res = await fetch(`/api/c/customers/${params.custid}/edit`);
+    const res = await fetch(`/api/c/customers/${params.custid}/edit`, {
+      headers: { Authorization: "Bearer" },
+    });
     const data = await res.json();
-    console.log(data);
+    console.log("loader data is", data);
     return data;
   } catch (err) {
+    console.log(err);
     toast.error(err.message);
   }
 };
